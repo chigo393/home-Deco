@@ -2,7 +2,7 @@ name: Deploy HTML/CSS to Amazon Linux
 
 on:
   push:
-    branches: [main]  # Or your preferred branch
+    branches: [main]  # Trigger on push to main branch
 
 jobs:
   deploy:
@@ -15,10 +15,11 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          printf "%s\n" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
       - name: Copy files to Amazon Linux server
         run: |
-          scp -r ./index.html ./styles.css ec2-user@${{ secrets.SERVER_HOST }}:/var/www/html/
+          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no index.html styles.css ec2-user@${{ secrets.SERVER_HOST }}:/var/www/html/
+
