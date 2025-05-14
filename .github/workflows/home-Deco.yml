@@ -24,15 +24,14 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Copy files to Amazon Linux server
+      - name: clone repo
         run: |
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ./index.html ./style.css ec2-user@${{ secrets.SERVER_HOST }}:/home/ec2-user/
+          git clone https://github.com/chigo393/home-Deco.git
 
       - name: Move files to Apache directory and restart HTTP
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.SERVER_HOST }} << 'EOF'
-            sudo mv /home/ec2-user/index.html /var/www/html/
-            sudo mv /home/ec2-user/style.css /var/www/html/
-            sudo systemctl enable httpd
-            sudo systemctl restart httpd
+          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no /home/home-Deco* ec2-user@${{ secrets.SERVER_HOST }}:/var/www/html/
+          sudo systemctl enable httpd
+          sudo systemctl restart httpd
           EOF
