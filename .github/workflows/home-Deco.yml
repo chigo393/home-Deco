@@ -37,6 +37,6 @@ jobs:
           
       - name: enable and start httpd
         run: |
-          systemctl enable httpd && systemctl restart httpd
+          sudo systemctl enable httpd && systemctl restart httpd
 
 
