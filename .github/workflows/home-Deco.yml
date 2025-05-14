@@ -35,9 +35,9 @@ jobs:
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.SERVER_HOST }} "sudo mv /home/ec2-user/index.html /var/www/html/"
           ssh -i ~/.ssh/id_rsa ec2-user@${{ secrets.SERVER_HOST }} "sudo mv /home/ec2-user/style.css /var/www/html/"
           
-      - name: enable and start httpd
+      - name: Restart Apache
         run: |
-          sudo -i
-          systemctl enable httpd.service && systemctl restart httpd.service
+          sudo /bin/systemctl enable httpd.service
+          sudo /bin/systemctl restart httpd.service
 
 
