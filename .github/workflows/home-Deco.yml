@@ -9,16 +9,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up SSH key
+      - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY_BASE64 }}" | base64 -d > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy HTML/CSS via SCP
+      - name: Deploy to EC2
         run: |
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no index.html styles.css ec2-user@${{ secrets.SERVER_HOST }}:/var/www/html/
+          scp index.html styles.css ec2-user@${{ secrets.SERVER_HOST }}:/var/www/html/
