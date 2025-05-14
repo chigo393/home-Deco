@@ -18,6 +18,9 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      - name: Install Apache and mod_ssl
+        run: |
+          sudo yum install -y httpd mod_ssl
 
       - name: Deploy to EC2
         run: |
