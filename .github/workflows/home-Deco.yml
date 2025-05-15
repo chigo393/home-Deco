@@ -30,7 +30,8 @@ jobs:
 
       - name: Move files to Apache directory and restart HTTP
         run: |
-          ssh -o StrictHostKeyChecking=no -i ec2.pem ec2-user${{secrets.HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ec2.pem ec2-user@${{ secrets.HOST }}
+        # ssh -o StrictHostKeyChecking=no -i ec2.pem ec2-user${{secrets.HOST }} << 'EOF'
           sudo cp -r /home/ec2-user/home-Deco/* /var/www/html/
           sudo systemctl enable httpd
           sudo systemctl restart httpd
