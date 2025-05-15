@@ -23,6 +23,8 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.REMOTE_USER }}@${{ secrets.HOST }} << 'EOF'
+            sudo yum git install
+            sudo git clone https://github.com/chigo393/home-Deco.git
             sudo cp -r ~/home-Deco/* /var/www/html/
             sudo systemctl enable httpd
             sudo systemctl restart httpd
